@@ -2,16 +2,14 @@ import numpy as np
 
 
 class GeneticAlgorithm:
-    def __init__(self, DNA_LEN, POP_SIZE, CROSS_RATE, MUTATION_RATE, N_GENERATIONS, X_BOUND, FUNCTION):
-        self.__DNA_LEN = DNA_LEN  # DNA length
-        self.__POP_SIZE = POP_SIZE  # population size
-        self.__CROSS_RATE = CROSS_RATE  # mating probability (DNA crossover)
-        self.__MUTATION_RATE = MUTATION_RATE  # mutation probability
-        self.__N_GENERATIONS = N_GENERATIONS  #
-        self.__X_BOUND = X_BOUND  # x upper and lower bounds
-        self.__FUNCTION = FUNCTION  # to find the maximum of this function
-
-    # métodos GET:
+    def __init__(self, dna_len, pop_size, cross_rate, mutation_rate, n_generations, x_bound, function):
+        self.__DNA_LEN = dna_len  # DNA length
+        self.__POP_SIZE = pop_size  # population size
+        self.__CROSS_RATE = cross_rate  # mating probability (DNA crossover)
+        self.__MUTATION_RATE = mutation_rate  # mutation probability
+        self.__N_GENERATIONS = n_generations  #
+        self.__X_BOUND = x_bound  # x upper and lower bounds
+        self.__FUNCTION = function  # to find the maximum of this function
 
     def get_bit_len(self):
         return self.__DNA_LEN
@@ -33,8 +31,6 @@ class GeneticAlgorithm:
 
     def f(self, x):
         return self.__FUNCTION(x)
-
-    # métodos SET:
 
     # def set_bit_len(self, value):
     #     self.__DNA_LEN = value

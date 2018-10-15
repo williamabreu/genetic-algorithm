@@ -50,13 +50,13 @@ def main(ga):
 
 if __name__ == '__main__':
     ga = GeneticAlgorithm(
-        DNA_LEN=8,
-        POP_SIZE=30,
-        CROSS_RATE=0.7,
-        MUTATION_RATE=0.01,
-        N_GENERATIONS=20,
-        X_BOUND=[-10, 10],
-        FUNCTION=lambda x: np.sin(10*x)*x + np.cos(2*x)*x
+        dna_len=8,
+        pop_size=30,
+        cross_rate=0.7,
+        mutation_rate=0.01,
+        n_generations=20,
+        x_bound=[-10, 10],
+        function=lambda x: np.sin(10*x)*x + np.cos(2*x)*x
     )
 
     main(ga)

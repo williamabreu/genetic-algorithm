@@ -1,3 +1,5 @@
+from builtins import enumerate
+
 import numpy
 
 
@@ -118,19 +120,33 @@ class GeneticAlgorithm:
         :param pop_float_values: array com valores calculados de f(x) para os indivíduos
         :return: array com os valores de aptidão dos indivíduos
         """
-        return pop_float_values + 1e-3 - numpy.min(pop_float_values)
+        max_value = pop_float_values[numpy.argmax(pop_float_values)]
+        # return [x if x >= 0 else 0 for x in pop_float_values] / max_value
+        return pop_float_values / max_value
 
-    def select(self, pop: numpy.ndarray, fitness: numpy.ndarray) -> numpy.ndarray:
+    def select(self, pop_bin_values: numpy.ndarray, fitness: numpy.ndarray) -> numpy.ndarray:
         """
         Faz a seleção do indivíduo com maior aptidão da população (suporta numpy multiarray).
 
-        :param pop:
-        :param fitness:
-        :return:
+        :param pop_bin_values: valores binários de DNA dos indivíduos
+        :param fitness: array com os valores de aptidão dos indivíduos
+        :return: população selecionada pelo torneio
         """
         POP_SIZE = self.__POP_SIZE
-        i = numpy.random.choice(numpy.arange(POP_SIZE), size=POP_SIZE, replace=True, p=fitness/fitness.sum())
-        return pop[i]
+        pos = []
+        max_pos = -1
+
+        for i in range(POP_SIZE):
+            if fitness[i] > 0.99:
+                max_pos = i
+
+        for i in range(POP_SIZE):
+            if fitness[i] > 0:
+                pos.append(i)
+            else:
+                pos.append(max_pos)
+
+        return pop_bin_values[pos]
 
     def crossover(self, parent: numpy.ndarray, pop_bin_values: numpy.ndarray) -> numpy.ndarray:
         """

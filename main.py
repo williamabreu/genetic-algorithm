@@ -1,62 +1,56 @@
-import matplotlib.pyplot as plt
-import numpy as np
-from ga import GeneticAlgorithm
+from ga import GeneticAlgorithm, Population
+from plot import PlotFrame
+from console import Console
+import numpy
 
-def main(ga):
-    population = np.random.randint(2, size=(ga.get_population_size(), ga.get_bit_len()))  # initialize the pop DNA
 
-    plt.ion()  # something about plotting
-    x = np.linspace(*ga.get_x_bounds(), 200)
-    plt.plot(x, ga.f(x))
+def run(ga: GeneticAlgorithm) -> None:
+    """
+    Executa o algoritmo.
+    :param ga: algoritmo genético a ser executado
+    """
 
-    for _ in range(ga.get_num_generations()-1):
-        F_values = ga.f(ga.binary_to_float(population))  # compute function value by extracting DNA
+    # cria a população:
+    population = Population(ga.get_population_size(), ga.get_bit_len())
+    # cria a tela de plotagem do gráfico:
+    plot = PlotFrame(ga.get_x_bounds(), ga.f)
 
-        # something about plotting
-        sca = plt.scatter(ga.binary_to_float(population), F_values, s=200, lw=0, c='red', alpha=0.5)
-        plt.pause(0.1)
-        sca.remove()
+    pause = input('PRESS ENTER TO START...')
 
-        # GA part (evolution)
-        fitness = ga.calculate_fitness(F_values)
-        dna_fit = population[np.argmax(fitness)]
-        print("Most fitted DNA: ", dna_fit, ga.binary_to_float(dna_fit))
-        population = ga.select(population, fitness)
+    for i in range(ga.get_num_generations()):
+        # faz a plotagem dos dados:
+        pop_float_values = ga.binary_to_float(population.get())
+        plot.update(pop_float_values)
+        plot.pause(0.1)
+        if i < ga.get_num_generations() - 1:
+            plot.clear()
+
+        # evelução do algoritmo genético:
+        fitness = ga.calculate_fitness(ga.f(pop_float_values))
+
+        dna_fit = population.get_fitness(fitness)
+        Console.print_most_fitted(i+1, dna_fit, ga.binary_to_float(dna_fit))
+
+        population.set(ga.select(population.get(), fitness))
         pop_copy = population.copy()
-        for parent in population:
+        for parent in population.get():
             child = ga.crossover(parent, pop_copy)
             child = ga.mutate(child)
-            parent[:] = child  # parent is replaced by its child
-    
-    F_values = ga.f(ga.binary_to_float(population))  # compute function value by extracting DNA
+            parent[:] = child
 
-    # something about plotting
-    sca = plt.scatter(ga.binary_to_float(population), F_values, s=200, lw=0, c='red', alpha=0.5)
-
-    # GA part (evolution)
-    fitness = ga.calculate_fitness(F_values)
-    dna_fit = population[np.argmax(fitness)]
-    print("Most fitted DNA: ", dna_fit, ga.binary_to_float(dna_fit))
-    population = ga.select(population, fitness)
-    pop_copy = population.copy()
-    for parent in population:
-        child = ga.crossover(parent, pop_copy)
-        child = ga.mutate(child)
-        parent[:] = child  # parent is replaced by its child
-
-    plt.ioff()
-    plt.show()
+    plot.show()
 
 
 if __name__ == '__main__':
+
     ga = GeneticAlgorithm(
         dna_len=8,
         pop_size=30,
         cross_rate=0.7,
         mutation_rate=0.01,
         n_generations=20,
-        x_bound=[-10, 10],
-        function=lambda x: np.sin(10*x)*x + np.cos(2*x)*x
+        x_bound=(-10, 10),
+        foo=lambda x: numpy.sin(10*x)*x + numpy.cos(2*x)*x
     )
 
-    main(ga)
+    run(ga)

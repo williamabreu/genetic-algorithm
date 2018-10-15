@@ -1,7 +1,6 @@
 from ga import GeneticAlgorithm, Population
 from plot import PlotFrame
 from console import Console
-import numpy
 
 
 def run(ga: GeneticAlgorithm) -> None:
@@ -54,7 +53,7 @@ if __name__ == '__main__':
         mutation_rate=0.01,
         n_generations=50,
         x_bound=(-10, 10),
-        foo=lambda x: x**2 + 3*x - 14 #numpy.sin(10*x)*x + numpy.cos(2*x)*x
+        foo=lambda x: x**2 - 3*x + 4
     )
 
     run(ga)

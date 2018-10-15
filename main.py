@@ -1,6 +1,6 @@
 import matplotlib.pyplot as plt
 import numpy as np
-from genetic_algorithm import GeneticAlgorithm
+from ga import GeneticAlgorithm
 
 def main(ga):
     population = np.random.randint(2, size=(ga.get_population_size(), ga.get_bit_len()))  # initialize the pop DNA

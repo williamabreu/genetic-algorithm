@@ -19,7 +19,8 @@ def main(ga):
 
         # GA part (evolution)
         fitness = ga.calculate_fitness(F_values)
-        print("Most fitted DNA: ", population[np.argmax(fitness), :])
+        dna_fit = population[np.argmax(fitness)]
+        print("Most fitted DNA: ", dna_fit, ga.binary_to_float(dna_fit))
         population = ga.select(population, fitness)
         pop_copy = population.copy()
         for parent in population:
@@ -34,7 +35,8 @@ def main(ga):
 
     # GA part (evolution)
     fitness = ga.calculate_fitness(F_values)
-    print("Most fitted DNA: ", population[np.argmax(fitness), :])
+    dna_fit = population[np.argmax(fitness)]
+    print("Most fitted DNA: ", dna_fit, ga.binary_to_float(dna_fit))
     population = ga.select(population, fitness)
     pop_copy = population.copy()
     for parent in population:

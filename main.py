@@ -51,7 +51,7 @@ if __name__ == '__main__':
         pop_size=30,
         cross_rate=0.7,
         mutation_rate=0.01,
-        n_generations=50,
+        n_generations=20,
         x_bound=(-10, 10),
         foo=lambda x: x**2 - 3*x + 4
     )

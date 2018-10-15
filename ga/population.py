@@ -22,6 +22,14 @@ class Population:
         """
         return self.__individuals
 
+    def get_fitness(self, fitness: numpy.ndarray) -> numpy.ndarray:
+        """
+        Obtém o DNA do indivíduo com maior aptidão.
+        :param fitness: valores de aptidão de todos
+        :return: DNA do indivíduo selecionado
+        """
+        return self.__individuals[numpy.argmax(fitness)]
+
     def set(self, value: numpy.ndarray) -> None:
         """
         Altera os indivíduos da população.

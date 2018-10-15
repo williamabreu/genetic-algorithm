@@ -120,9 +120,7 @@ class GeneticAlgorithm:
         :param pop_float_values: array com valores calculados de f(x) para os indivíduos
         :return: array com os valores de aptidão dos indivíduos
         """
-        max_value = pop_float_values[numpy.argmax(pop_float_values)]
-        # return [x if x >= 0 else 0 for x in pop_float_values] / max_value
-        return pop_float_values / max_value
+        return pop_float_values + 0.01 - numpy.min(pop_float_values)
 
     def select(self, pop_bin_values: numpy.ndarray, fitness: numpy.ndarray) -> numpy.ndarray:
         """
@@ -133,20 +131,8 @@ class GeneticAlgorithm:
         :return: população selecionada pelo torneio
         """
         POP_SIZE = self.__POP_SIZE
-        pos = []
-        max_pos = -1
-
-        for i in range(POP_SIZE):
-            if fitness[i] > 0.99:
-                max_pos = i
-
-        for i in range(POP_SIZE):
-            if fitness[i] > 0:
-                pos.append(i)
-            else:
-                pos.append(max_pos)
-
-        return pop_bin_values[pos]
+        i = numpy.random.choice(numpy.arange(POP_SIZE), size=POP_SIZE, replace=True, p=fitness/fitness.sum())
+        return pop_bin_values[i]
 
     def crossover(self, parent: numpy.ndarray, pop_bin_values: numpy.ndarray) -> numpy.ndarray:
         """

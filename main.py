@@ -14,7 +14,7 @@ def run(ga: GeneticAlgorithm) -> None:
     # cria a tela de plotagem do gráfico:
     plot = PlotFrame(ga.get_x_bounds(), ga.f)
 
-    pause = input('PRESS ENTER TO START...')
+    # pause = input('PRESS ENTER TO START...')
     x_value = None
 
     for i in range(ga.get_num_generations()):

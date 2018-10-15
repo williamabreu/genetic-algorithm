@@ -118,19 +118,19 @@ class GeneticAlgorithm:
         :param pop_float_values: array com valores calculados de f(x) para os indivíduos
         :return: array com os valores de aptidão dos indivíduos
         """
-        return pop_float_values + 1e-3 - numpy.min(pop_float_values)
+        return pop_float_values + 0.01 - numpy.min(pop_float_values)
 
-    def select(self, pop: numpy.ndarray, fitness: numpy.ndarray) -> numpy.ndarray:
+    def select(self, pop_bin_values: numpy.ndarray, fitness: numpy.ndarray) -> numpy.ndarray:
         """
         Faz a seleção do indivíduo com maior aptidão da população (suporta numpy multiarray).
 
-        :param pop:
-        :param fitness:
-        :return:
+        :param pop_bin_values: valores binários de DNA dos indivíduos
+        :param fitness: array com os valores de aptidão dos indivíduos
+        :return: população selecionada pelo torneio
         """
         POP_SIZE = self.__POP_SIZE
         i = numpy.random.choice(numpy.arange(POP_SIZE), size=POP_SIZE, replace=True, p=fitness/fitness.sum())
-        return pop[i]
+        return pop_bin_values[i]
 
     def crossover(self, parent: numpy.ndarray, pop_bin_values: numpy.ndarray) -> numpy.ndarray:
         """
